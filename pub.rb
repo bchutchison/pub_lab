@@ -18,9 +18,14 @@ class Pub
     return @drinks
   end
 
-  def sell_drink(drink)
-    @drinks.delete(drink)
+  # def sell_drink(drink)
+  #   @drinks.delete(drink)
+  # end
+
+  def sell_drink_remove_from_stock(drink)
+    @stock_lvl[drink] -= 1
   end
+
 
   def increase_money(drink)
     @till += drink.price
@@ -32,7 +37,8 @@ class Pub
         if customer.drunk_level < 8
           customer.spends_money(drink)
           increase_money(drink)
-          sell_drink(drink)
+          # sell_drink(drink)
+          sell_drink_remove_from_stock(drink)
           customer.drunk_level += drink.alcohol_level
         end
         p "Youre too drunk, go home!"
@@ -65,4 +71,14 @@ class Pub
       customer.drunk_level -= food.rejuvenation_level
     end
   end
+
+  def stock_value(drink)
+    value = @stock_lvl[drink] * drink.price
+    return value
+  end
+
+  def buy_stock(drink, quantity)
+    @stock_lvl[drink] += quantity
+  end
+
 end

@@ -18,7 +18,7 @@ class PubTest < MiniTest::Test
     @drink2 = Drink.new("White Russian", 10, 2)
     @drink3 = Drink.new("Palinka", 10, 8)
 
-    @pub = Pub.new("Queens Head", 1000, [@drink1, @drink2, @drink3], [@food1], [{drink: @drink1, quantity: 10}, {drink: @drink2, quantity: 20}, {drink: @drink3, quantity: 5}])
+    @pub = Pub.new("Queens Head", 1000, [@drink1, @drink2, @drink3], [@food1], {@drink1 => 10, @drink2 => 5, @drink3 => 2})
 
 
   end
@@ -35,10 +35,10 @@ class PubTest < MiniTest::Test
     assert_equal(3, @pub.drinks_count)
   end
 
-  def test_sell_drink
-    @pub.sell_drink(@drink1)
-    assert_equal(2, @pub.drinks_count)
-  end
+  # def test_sell_drink
+  #   @pub.sell_drink(@drink1)
+  #   assert_equal(2, @pub.drinks_count)
+  # end
 
   def test_till_gains_money
     @pub.increase_money(@drink1)
@@ -47,15 +47,16 @@ class PubTest < MiniTest::Test
 
   def test_sell_drink_to_customer
     @pub.sells_drink_to_customer(@customer, @drink1)
-    assert_equal(2, @pub.drinks_count)
+    # assert_equal(2, @pub.drinks_count)
     assert_equal(70, @customer.wallet)
     assert_equal(1010, @pub.till)
     assert_equal(4, @customer.drunk_level)
+    assert_equal(9, @pub.stock_lvl[@drink1])
   end
 
   def test_sell_drink_to_customer__too_drunk
     @pub.sells_drink_to_customer(@customer2, @drink3)
-    assert_equal(3, @pub.drinks_count)
+    # assert_equal(3, @pub.drinks_count)
     assert_equal(80, @customer2.wallet)
     assert_equal(1000, @pub.till)
     assert_equal(9, @customer2.drunk_level)
@@ -63,7 +64,7 @@ class PubTest < MiniTest::Test
 
   def test_sell_drink_to_customer__too_young
     @pub.sells_drink_to_customer(@customer3, @drink2)
-    assert_equal(3, @pub.drinks_count)
+    # assert_equal(3, @pub.drinks_count)
     assert_equal(80, @customer3.wallet)
     assert_equal(1000, @pub.till)
     assert_equal(1, @customer3.drunk_level)
@@ -79,6 +80,17 @@ class PubTest < MiniTest::Test
 
 
   def test_number_of_stock
-    assert_equal(10, @pub.stock_lvl[0][:quantity])
+    assert_equal(10, @pub.stock_lvl[@drink1])
   end
+
+  def test_stock_value
+    value = @pub.stock_value(@drink1)
+    assert_equal(100, value)
+  end
+
+  def test_buy_stock
+    @pub.buy_stock(@drink1, 5)
+    assert_equal(15, @pub.stock_lvl[@drink1])
+  end
+
 end
