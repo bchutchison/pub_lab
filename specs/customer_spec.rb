@@ -16,7 +16,7 @@ class CustomerTest < MiniTest::Test
 
     @food1 = Food.new("Burger", 15, 3)
 
-    @pub = Pub.new("Queens Head", 1000, [@drink1, @drink2, @drink3], [@food1])
+    @pub = Pub.new("Queens Head", 1000, [@drink1, @drink2, @drink3], [@food1], {@drink1 => 10, @drink2 => 5, @drink3 => 2})
 
     @customer = Customer.new("Walter", 80, 26, 1)
   end

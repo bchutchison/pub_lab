@@ -35,15 +35,15 @@ class Pub
     if drinks_count > 0
       if customer.age > 25
         if customer.drunk_level < 8
-          customer.spends_money(drink)
+          customer.buys_drink(drink)
           increase_money(drink)
           # sell_drink(drink)
           sell_drink_remove_from_stock(drink)
           customer.drunk_level += drink.alcohol_level
         end
-        p "Youre too drunk, go home!"
+        return "Youre too drunk, go home!"
       end
-      p "Youre too young, how about a coke?"
+      return "Youre too young, how about a coke?"
     end
   end
 
@@ -65,10 +65,9 @@ class Pub
 
   def sells_food_to_customer(customer, food)
     if food_count > 0
-      customer.spends_money(food)
+      customer.buys_food(food)
       increase_money(food)
       sell_food(food)
-      customer.drunk_level -= food.rejuvenation_level
     end
   end
 

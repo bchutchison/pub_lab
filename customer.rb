@@ -10,9 +10,15 @@ class Customer
     @drunk_level = drunk_level
   end
 
-  def spends_money(drink)
+  def buys_drink(drink)
     @wallet -= (drink.price)
   end
+
+  def buys_food(food)
+    @drunk_level -= food.rejuvenation_level
+    @wallet -= (food.price)
+  end
+
 
   # def buys_drink_from_pub(pub, drink)
   #   if pub.drinks_count > 0
@@ -21,11 +27,5 @@ class Customer
   #   pub.sell_drink(drink)
   #   end
   # end
-
-  def buys_food(food)
-    @drunk_level -= food.rejuvenation_level
-    @wallet -= (food.price)
-  end
-
 
 end
